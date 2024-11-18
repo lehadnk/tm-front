@@ -25,9 +25,9 @@ export default function LoginForm() {
     return (
         <>
             <div>
-                <input type="email" />
-                <input type="password" />
-                <button onClick={handleSubmit}>Login</button>
+                <input type="email"/>
+                <input type="password"/>
+                <button className="" onClick={handleSubmit}>Login</button>
             </div>
             Login Form
         </>
