@@ -1,4 +1,4 @@
-export class MeResponse {
+export class CurrentUserResponse {
     public email: string
     public type: string
 

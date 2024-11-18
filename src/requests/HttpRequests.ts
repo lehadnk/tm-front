@@ -1,9 +1,9 @@
-import {MeResponse} from "./responses/MeResponse.ts";
+import {CurrentUserResponse} from "./responses/CurrentUserResponse.ts";
 import {UnauthenticatedException} from "./exceptions/UnauthenticatedException.ts";
 import {LoginResponse} from "./responses/LoginResponse.ts";
 import {getToken} from "./TokenStorage.ts";
 
-export async function usersCurrent(): Promise<MeResponse> {
+export async function usersCurrent(): Promise<CurrentUserResponse> {
     const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/users/current', {
         method: 'GET',
         headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
@@ -13,7 +13,7 @@ export async function usersCurrent(): Promise<MeResponse> {
         throw new UnauthenticatedException()
     }
 
-    return await response.json() as MeResponse
+    return await response.json() as CurrentUserResponse
 }
 
 export async function login(email: string, password: string): Promise<LoginResponse> {
