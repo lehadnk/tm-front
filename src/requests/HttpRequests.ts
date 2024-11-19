@@ -86,11 +86,11 @@ export async function getUser(id: number): Promise<User> {
     return await response.json() as User
 }
 
-export async function createUser(email: string, password: string, role: string): Promise<void> {
+export async function createUser(name: string, email: string, password: string, role: string): Promise<void> {
     const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/users', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
-        body: JSON.stringify({email, password, role})
+        body: JSON.stringify({name, email, password, role})
     })
 
     if (response.status === 401) {
@@ -98,11 +98,11 @@ export async function createUser(email: string, password: string, role: string):
     }
 }
 
-export async function editUser(id: number, email: string, password: string, role: string): Promise<void> {
-    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/users', {
+export async function editUser(id: number, name: string, email: string, password: string, role: string): Promise<void> {
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/users/' + id.toString(), {
         method: 'PUT',
         headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
-        body: JSON.stringify({id, email, password, role})
+        body: JSON.stringify({name, email, password, role})
     })
 
     if (response.status === 401) {

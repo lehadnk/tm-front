@@ -1,9 +1,10 @@
 import {Component} from "react";
-import {getUserById} from "../../domain/UserService.ts";
-import {useParams} from "react-router-dom";
+import {getUserById, saveUser} from "../../domain/UserService.ts";
+import {useNavigate, useParams} from "react-router-dom";
 
 interface EditUserFormProps {
-    userId?: string
+    userId?: string,
+    navigate: (path: string) => void,
 }
 
 interface EditUserFormState {
@@ -28,6 +29,11 @@ export class EditUserForm extends Component<EditUserFormProps, EditUserFormState
 
     handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
+
+        saveUser(this.state.name, this.state.email, this.state.password, this.state.role, this.props.userId != undefined ? parseInt(this.props.userId) : undefined)
+        console.log(this.state.role)
+
+        this.props.navigate("/users");
     };
 
     async loadUser(id: any) {
@@ -119,8 +125,9 @@ export class EditUserForm extends Component<EditUserFormProps, EditUserFormState
 
 const EditUserFormWrapper: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate()
 
-    return <EditUserForm userId={id} />;
+    return <EditUserForm userId={id} navigate={navigate} />;
 };
 
 export default EditUserFormWrapper;

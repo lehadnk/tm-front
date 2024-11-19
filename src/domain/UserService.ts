@@ -11,12 +11,12 @@ export async function getUserById(id: number): Promise<User>
     return await getUser(id)
 }
 
-export async function saveUser(email: string, password: string, role: string, id?: number): Promise<void> {
+export async function saveUser(name: string, email: string, password: string, role: string, id?: number): Promise<void> {
     if (id == undefined) {
-        return await createUser(email, password, role);
+        return await createUser(name, email, password, role);
     }
 
-    return await editUser(id, email, password, role);
+    return await editUser(id, name, email, password, role);
 }
 
 export async function deleteUser(id: number): Promise<void> {

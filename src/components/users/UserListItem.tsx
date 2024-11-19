@@ -11,6 +11,7 @@ export default class UserListItem extends Component<UserListItemProps, any> {
             <>
                 <p>{this.props.data.id}</p>
                 <p>{this.props.data.name}</p>
+                <a href={"/users/" + this.props.data.id}>Edit</a>
             </>
         )
     }

@@ -10,7 +10,6 @@ import {Component} from "react";
 import {getCurrentUser} from "./domain/AuthenticationService.ts";
 import {ApplicationContext} from "./components/context/ApplicationContext.ts";
 import {CurrentUserResponse} from "./requests/responses/CurrentUserResponse.ts";
-import EditUserForm from "./components/users/EditUserForm.tsx";
 import EditUserFormWrapper from "./components/users/EditUserForm.tsx";
 
 
@@ -49,7 +48,7 @@ class App extends Component {
                             <Route path="users/create"
                                    element={
                                        <ProtectedRoute role={"admin"}>
-                                           <EditUserForm></EditUserForm>
+                                           <EditUserFormWrapper></EditUserFormWrapper>
                                        </ProtectedRoute>
                                    }
                             ></Route>

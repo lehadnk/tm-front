@@ -29,6 +29,7 @@ export default class UserList extends Component<any, UserListState> {
         return (
             <>
                 <h1>User List</h1>
+                <a href={"/users/create"}>Create User</a>
                 {this.state.data ? (
                     <ul>
                         {this.state.data.users.map((user: User) => (
