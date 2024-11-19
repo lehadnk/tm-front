@@ -25,7 +25,7 @@ class App extends Component {
         return (
             <>
                 <ApplicationContext.Provider value={{ user: this.state.user }}>
-                    {isAuthenticated() && <NavigationMenu />}
+                    {this.state.user != undefined && <NavigationMenu user={this.state.user} />}
                     <BrowserRouter>
                         <Routes>
                             <Route
@@ -71,18 +71,18 @@ class App extends Component {
         )
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (!isAuthenticated()) {
             return
         }
 
-        const user = getCurrentUser()
+        const user = await getCurrentUser()
         if (user == null) {
             return
         }
 
         this.setState({user})
-        this.forceUpdate()
+        // this.forceUpdate()
     }
 }
 

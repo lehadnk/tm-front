@@ -1,17 +1,19 @@
 import {Component} from "react";
-import {ApplicationContext, ApplicationContextType} from "./context/ApplicationContext.ts";
 import {deleteToken} from "../requests/TokenStorage.ts";
+import {CurrentUserResponse} from "../requests/responses/CurrentUserResponse.ts";
 
-export default class NavigationMenu extends Component {
-    static context = ApplicationContext;
+interface NavigationMenuProps {
+    user: CurrentUserResponse
+}
 
+export default class NavigationMenu extends Component<NavigationMenuProps, any> {
     handleLogout = () => {
         deleteToken();
         window.location.href = '/login';
     };
 
     render() {
-        const { user } = this.context as ApplicationContextType;
+        const user = this.props.user;
 
         return (
             <>
@@ -21,7 +23,7 @@ export default class NavigationMenu extends Component {
                             <a href="/torrents" className="hover:bg-blue-700 px-3 py-2 rounded-md text-lg">
                                 Torrents
                             </a>
-                            {user && user.type === 'admin' && (
+                            {user && user.role === 'admin' && (
                                 <a href="/users" className="hover:bg-blue-700 px-3 py-2 rounded-md text-lg">
                                     Users
                                 </a>

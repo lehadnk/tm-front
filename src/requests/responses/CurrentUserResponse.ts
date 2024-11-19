@@ -1,12 +1,12 @@
 export class CurrentUserResponse {
     public name: string
     public email: string
-    public type: string
+    public role: string
 
-    constructor(name: string, email:string , type: string)
+    constructor(name: string, email:string , role: string)
     {
         this.name = name
         this.email = email
-        this.type = type
+        this.role = role
     }
 }
