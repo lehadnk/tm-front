@@ -12,6 +12,7 @@ interface EditUserFormState {
     email: string
     password: string
     role: string
+    error: string | null;
 }
 
 export class EditUserForm extends Component<EditUserFormProps, EditUserFormState> {
@@ -20,6 +21,7 @@ export class EditUserForm extends Component<EditUserFormProps, EditUserFormState
         email: "",
         password: "",
         role: "",
+        error: null
     }
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -27,13 +29,15 @@ export class EditUserForm extends Component<EditUserFormProps, EditUserFormState
         this.setState({ [name]: value } as unknown as Pick<EditUserFormState, keyof EditUserFormState>);
     };
 
-    handleSubmit = (event: React.FormEvent) => {
+    handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        saveUser(this.state.name, this.state.email, this.state.password, this.state.role, this.props.userId != undefined ? parseInt(this.props.userId) : undefined)
-        console.log(this.state.role)
-
-        this.props.navigate("/users");
+        try {
+            await saveUser(this.state.name, this.state.email, this.state.password, this.state.role, this.props.userId ? parseInt(this.props.userId) : undefined);
+            this.props.navigate("/users");
+        } catch (e) {
+            this.setState({ error: "Failed to save user. Please try again later." });
+        }
     };
 
     async loadUser(id: any) {
@@ -55,58 +59,72 @@ export class EditUserForm extends Component<EditUserFormProps, EditUserFormState
     }
 
     render() {
-        const { name, email, password, role } = this.state;
+        const { name, email, password, role, error } = this.state;
 
         return (
-            <form onSubmit={this.handleSubmit}>
-                <h2>Edit User Form</h2>
+            <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6">Edit User Form</h2>
 
-                <div>
-                    <label>
-                        Name:
+                {error && <div className="text-red-500 bg-red-100 p-4 mb-4 rounded">{error}</div>}
+
+                <form onSubmit={this.handleSubmit} className="space-y-6">
+                    <div>
+                        <label className="block text-gray-700 font-semibold mb-2" htmlFor="name">
+                            Name:
+                        </label>
                         <input
+                            id="name"
                             type="text"
                             name="name"
                             value={name}
                             onChange={this.handleChange}
                             required
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                    </label>
-                </div>
+                    </div>
 
-                <div>
-                    <label>
-                        Email:
+                    <div>
+                        <label className="block text-gray-700 font-semibold mb-2" htmlFor="email">
+                            Email:
+                        </label>
                         <input
+                            id="email"
                             type="email"
                             name="email"
                             value={email}
                             onChange={this.handleChange}
                             required
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            autoComplete="off"
                         />
-                    </label>
-                </div>
+                    </div>
 
-                <div>
-                    <label>
-                        Password:
+                    <div>
+                        <label className="block text-gray-700 font-semibold mb-2" htmlFor="password">
+                            Password:
+                        </label>
                         <input
+                            id="password"
                             type="password"
                             name="password"
                             value={password}
                             onChange={this.handleChange}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            autoComplete="off"
                         />
-                    </label>
-                </div>
+                    </div>
 
-                <div>
-                    <label>
-                        Role:
+                    <div>
+                        <label className="block text-gray-700 font-semibold mb-2" htmlFor="role">
+                            Role:
+                        </label>
                         <select
+                            id="role"
                             name="role"
                             value={role}
                             onChange={this.handleChange}
                             required
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="" disabled>
                                 Select Role
@@ -114,11 +132,18 @@ export class EditUserForm extends Component<EditUserFormProps, EditUserFormState
                             <option value="admin">Admin</option>
                             <option value="user">User</option>
                         </select>
-                    </label>
-                </div>
+                    </div>
 
-                <button type="submit">Save Changes</button>
-            </form>
+                    <div>
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
         );
     }
 }

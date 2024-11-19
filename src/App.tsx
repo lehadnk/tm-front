@@ -1,5 +1,4 @@
-import './App.css'
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {ProtectedRoute} from "./common/ProtectedRoute.tsx";
 import TorrentList from "./components/TorrentList.tsx";
 import LoginForm from "./components/LoginForm.tsx";
@@ -29,8 +28,14 @@ class App extends Component {
                     {isAuthenticated() && <NavigationMenu />}
                     <BrowserRouter>
                         <Routes>
-                            <Route index element={<LoginForm />} />
-                            <Route path="login" element={<LoginForm />} />
+                            <Route
+                                index
+                                element={isAuthenticated() ? <Navigate to="/torrents" /> : <LoginForm />}
+                            />
+                            <Route
+                                path="login"
+                                element={isAuthenticated() ? <Navigate to="/torrents" /> : <LoginForm />}
+                            />
                             <Route path="torrents"
                                    element={
                                        <ProtectedRoute role={"user"}>
