@@ -1,8 +1,8 @@
 import {createContext} from "react";
 import {CurrentUserResponse} from "../../requests/responses/CurrentUserResponse.ts";
 
-class ApplicationContext {
+export class ApplicationContextType {
     user?: CurrentUserResponse
 }
 
-export const applicationContext = createContext<ApplicationContext>(new ApplicationContext())
+export const ApplicationContext = createContext<ApplicationContextType>(new ApplicationContextType())

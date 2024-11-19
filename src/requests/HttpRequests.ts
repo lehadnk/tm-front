@@ -2,6 +2,8 @@ import {CurrentUserResponse} from "./responses/CurrentUserResponse.ts";
 import {UnauthenticatedException} from "./exceptions/UnauthenticatedException.ts";
 import {LoginResponse} from "./responses/LoginResponse.ts";
 import {getToken} from "./TokenStorage.ts";
+import {TorrentListResponse} from "./responses/TorrentListResponse.ts";
+import {User, UserListResponse} from "./responses/UserListResponse.ts";
 
 export async function usersCurrent(): Promise<CurrentUserResponse> {
     const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/users/current', {
@@ -24,4 +26,97 @@ export async function login(email: string, password: string): Promise<LoginRespo
     })
 
     return await response.json() as LoginResponse
+}
+
+export async function torrentsList(): Promise<TorrentListResponse>
+{
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/torrents', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
+    })
+
+    if (response.status === 401) {
+        throw new UnauthenticatedException()
+    }
+
+    return await response.json() as TorrentListResponse
+}
+
+export async function addTorrent(): Promise<void>
+{
+
+}
+
+export async function deleteTorrent(id: number): Promise<void> {
+    console.log(id)
+}
+
+export async function usersList(page: number, limit: number): Promise<UserListResponse>
+{
+    const queryParams = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        sort: "id"
+    });
+
+    const url = `${import.meta.env.VITE_BACKEND_URL}/users?${queryParams.toString()}`;
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
+    })
+
+    if (response.status === 401) {
+        throw new UnauthenticatedException()
+    }
+
+    return await response.json() as UserListResponse
+}
+
+export async function getUser(id: number): Promise<User> {
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/users/' + id.toString(), {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
+    })
+
+    if (response.status === 401) {
+        throw new UnauthenticatedException()
+    }
+
+    return await response.json() as User
+}
+
+export async function createUser(email: string, password: string, role: string): Promise<void> {
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/users', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
+        body: JSON.stringify({email, password, role})
+    })
+
+    if (response.status === 401) {
+        throw new UnauthenticatedException()
+    }
+}
+
+export async function editUser(id: number, email: string, password: string, role: string): Promise<void> {
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/users', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
+        body: JSON.stringify({id, email, password, role})
+    })
+
+    if (response.status === 401) {
+        throw new UnauthenticatedException()
+    }
+}
+
+export async function deleteUser(id: number): Promise<void> {
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/users/' + id.toString(), {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
+    })
+
+    if (response.status === 401) {
+        throw new UnauthenticatedException()
+    }
 }
