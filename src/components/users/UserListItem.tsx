@@ -8,7 +8,7 @@ interface UserListItemProps {
 
 export default class UserListItem extends Component<UserListItemProps, any> {
     handleDelete = () => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this torrent?");
+        const confirmDelete = window.confirm("Are you sure you want to delete this user?");
         if (confirmDelete) {
             this.props.onDelete(this.props.data.id);
         }
