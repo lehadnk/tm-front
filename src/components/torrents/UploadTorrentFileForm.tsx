@@ -21,14 +21,12 @@ export class UploadTorrentFileForm extends Component<UploadTorrentFileFormProps,
         success: false,
     };
 
-    // Handle file change
     handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             this.setState({ file: event.target.files[0], error: null });
         }
     };
 
-    // Handle file upload
     handleFileUpload = async () => {
         const { file } = this.state;
 
@@ -54,23 +52,47 @@ export class UploadTorrentFileForm extends Component<UploadTorrentFileFormProps,
         const { uploading, error, success } = this.state;
 
         return (
-            <div>
-                <h2>File Upload</h2>
-                <div>
-                    <input type="file" onChange={this.handleFileChange} />
-                </div>
-                <div>
-                    <button
-                        onClick={this.handleFileUpload}
-                        disabled={uploading}
-                        className="bg-blue-500 text-white py-2 px-4 rounded"
+            <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-md mt-10">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Upload Torrent File</h2>
+
+                <div className="mb-4">
+                    <label
+                        className="block text-gray-700 font-semibold mb-2"
+                        htmlFor="torrentFile"
                     >
-                        {uploading ? 'Uploading...' : 'Upload File'}
-                    </button>
+                        Select a torrent file to upload:
+                    </label>
+                    <input
+                        id="torrentFile"
+                        type="file"
+                        onChange={this.handleFileChange}
+                        className="block w-full text-gray-700 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    />
                 </div>
 
-                {error && <p className="text-red-500">{error}</p>}
-                {success && <p className="text-green-500">File uploaded successfully!</p>}
+                <button
+                    onClick={this.handleFileUpload}
+                    disabled={uploading}
+                    className={`w-full py-2 px-4 rounded-md text-white font-semibold shadow-md ${
+                        uploading
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-blue-500 hover:bg-blue-600'
+                    }`}
+                >
+                    {uploading ? 'Uploading...' : 'Upload File'}
+                </button>
+
+                {error && (
+                    <p className="mt-4 text-sm text-red-500 bg-red-100 border border-red-400 rounded-md p-2">
+                        {error}
+                    </p>
+                )}
+
+                {success && (
+                    <p className="mt-4 text-sm text-green-500 bg-green-100 border border-green-400 rounded-md p-2">
+                        File uploaded successfully!
+                    </p>
+                )}
             </div>
         );
     }

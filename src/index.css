@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-    padding-top: 82px; /* Adjust this based on the header height */
+    padding-top: 76px; /* Adjust this based on the header height */
 }

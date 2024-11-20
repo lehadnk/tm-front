@@ -4,6 +4,7 @@ import {TorrentItem} from "../../requests/responses/TorrentListResponse.ts";
 interface TorrentListItemProps {
     torrent: TorrentItem
     onDelete: (id: number) => void;
+    index: number
 }
 
 export default class TorrentListItem extends Component<TorrentListItemProps, any> {
@@ -19,21 +20,22 @@ export default class TorrentListItem extends Component<TorrentListItemProps, any
         const transmissionTorrent = this.props.torrent.transmissionTorrent;
 
         return (
-            <>
-                <div>{torrent.id}</div>
-                <div>{transmissionTorrent.name}</div>
-                <div>{torrent.status}</div>
-                <div>{transmissionTorrent.eta}</div>
-                <div>{transmissionTorrent.down}</div>
-                <div>{transmissionTorrent.done}</div>
-
-                <button
-                    onClick={this.handleDelete}
-                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500"
-                >
-                    Delete
-                </button>
-            </>
-        )
+            <tr className={`border-b ${this.props.index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}>
+                <td className="px-4 py-2 text-gray-800">{torrent.id}</td>
+                <td className="px-4 py-2 text-gray-800">{transmissionTorrent.name}</td>
+                <td className="px-4 py-2 text-gray-800">{torrent.status}</td>
+                <td className="px-4 py-2 text-gray-800">{transmissionTorrent.eta}</td>
+                <td className="px-4 py-2 text-gray-800">{transmissionTorrent.down}</td>
+                <td className="px-4 py-2 text-gray-800">{transmissionTorrent.done}%</td>
+                <td className="px-4 py-2">
+                    <button
+                        onClick={this.handleDelete}
+                        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500"
+                    >
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        );
     }
 }
