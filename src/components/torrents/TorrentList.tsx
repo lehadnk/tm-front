@@ -2,7 +2,6 @@ import {Component} from "react";
 import {TorrentItem, TorrentListResponse} from "../../requests/responses/TorrentListResponse.ts";
 import {deleteTorrentFile, getTorrentsList} from "../../domain/TorrentService.ts";
 import TorrentListItem from "./TorrentListItem.tsx";
-import {deleteTorrent} from "../../requests/HttpRequests.ts";
 
 interface TorrentListState {
     data: TorrentListResponse | null,
