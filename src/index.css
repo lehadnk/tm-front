@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    padding-top: 82px; /* Adjust this based on the header height */
+}

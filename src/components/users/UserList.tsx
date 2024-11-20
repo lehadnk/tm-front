@@ -1,6 +1,6 @@
 import {Component} from "react";
 import {User, UserListResponse} from "../../requests/responses/UserListResponse.ts";
-import {getUserList} from "../../domain/UserService.ts";
+import {deleteUser, getUserList} from "../../domain/UserService.ts";
 import UserListItem from "./UserListItem.tsx";
 
 interface UserListState {
@@ -25,6 +25,11 @@ export default class UserList extends Component<any, UserListState> {
         await this.getData();
     }
 
+    async deleteUser(id: number) {
+        await deleteUser(id);
+        await this.getData();
+    }
+
     render() {
         return (
             <div className="p-6 bg-gray-100 min-h-screen">
@@ -38,7 +43,7 @@ export default class UserList extends Component<any, UserListState> {
                 {this.state.data ? (
                     <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {this.state.data.users.map((user: User) => (
-                            <UserListItem key={user.id} data={user} />
+                            <UserListItem key={user.id} data={user} onDelete={() => this.deleteUser(user.id)} />
                         ))}
                     </ul>
                 ) : (

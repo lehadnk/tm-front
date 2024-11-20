@@ -1,6 +1,6 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {ProtectedRoute} from "./common/ProtectedRoute.tsx";
-import TorrentList from "./components/TorrentList.tsx";
+import TorrentList from "./components/torrents/TorrentList.tsx";
 import LoginForm from "./components/LoginForm.tsx";
 import UserList from "./components/users/UserList.tsx";
 import {isAuthenticated} from "./requests/TokenStorage.ts";
@@ -10,6 +10,7 @@ import {getCurrentUser} from "./domain/AuthenticationService.ts";
 import {ApplicationContext} from "./components/context/ApplicationContext.ts";
 import {CurrentUserResponse} from "./requests/responses/CurrentUserResponse.ts";
 import EditUserFormWrapper from "./components/users/EditUserForm.tsx";
+import UploadTorrentFileFormWrapper from "./components/torrents/UploadTorrentFileForm.tsx";
 
 
 interface AppState {
@@ -40,6 +41,13 @@ class App extends Component {
                                    element={
                                        <ProtectedRoute role={"user"}>
                                            <TorrentList></TorrentList>
+                                       </ProtectedRoute>
+                                   }
+                            ></Route>
+                            <Route path="torrents/add"
+                                   element={
+                                       <ProtectedRoute role={"user"}>
+                                           <UploadTorrentFileFormWrapper></UploadTorrentFileFormWrapper>
                                        </ProtectedRoute>
                                    }
                             ></Route>

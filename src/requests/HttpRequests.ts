@@ -28,9 +28,17 @@ export async function login(email: string, password: string): Promise<LoginRespo
     return await response.json() as LoginResponse
 }
 
-export async function torrentsList(): Promise<TorrentListResponse>
+export async function torrentsList(page: number, limit: number): Promise<TorrentListResponse>
 {
-    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/torrents', {
+    const queryParams = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        sort: "id"
+    });
+
+    const url = `${import.meta.env.VITE_BACKEND_URL}/torrents?${queryParams.toString()}`;
+
+    const response = await fetch(url, {
         method: 'GET',
         headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
     })
@@ -42,13 +50,33 @@ export async function torrentsList(): Promise<TorrentListResponse>
     return await response.json() as TorrentListResponse
 }
 
-export async function addTorrent(): Promise<void>
+export async function addTorrent(file: any): Promise<void>
 {
+    const formData = new FormData();
+    formData.append('file', file);
 
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/torrents', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+    });
+
+    if (response.status === 401) {
+        throw new UnauthenticatedException()
+    }
 }
 
 export async function deleteTorrent(id: number): Promise<void> {
-    console.log(id)
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/torrents/' + id.toString(), {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
+    })
+
+    if (response.status === 401) {
+        throw new UnauthenticatedException()
+    }
 }
 
 export async function usersList(page: number, limit: number): Promise<UserListResponse>

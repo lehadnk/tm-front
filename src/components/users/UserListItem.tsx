@@ -3,9 +3,17 @@ import {User} from "../../requests/responses/UserListResponse.ts";
 
 interface UserListItemProps {
     data: User
+    onDelete: (id: number) => void;
 }
 
 export default class UserListItem extends Component<UserListItemProps, any> {
+    handleDelete = () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this torrent?");
+        if (confirmDelete) {
+            this.props.onDelete(this.props.data.id);
+        }
+    };
+
     render() {
         const { id, name, email, role } = this.props.data;
         return (
@@ -34,7 +42,7 @@ export default class UserListItem extends Component<UserListItemProps, any> {
                         Edit
                     </a>
                     <a
-                        href={`/users/${id}`}
+                        onClick={this.handleDelete}
                         className="inline-block bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600"
                     >
                         Delete
