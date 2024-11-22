@@ -16,6 +16,8 @@ export default class TorrentList extends Component<any, TorrentListState> {
         limit: 10
     };
 
+    intervalId: NodeJS.Timeout | null = null;
+
     async getData() {
         const data = await getTorrentsList(this.state.page, this.state.limit)
         this.setState({data: data})
@@ -23,6 +25,7 @@ export default class TorrentList extends Component<any, TorrentListState> {
 
     async componentDidMount() {
         await this.getData();
+        this.intervalId = setInterval(() => this.getData(), 2000);
     }
 
     async deleteTorrent(id: number) {
