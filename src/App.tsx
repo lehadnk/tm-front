@@ -7,14 +7,13 @@ import {isAuthenticated} from "./requests/TokenStorage.ts";
 import NavigationMenu from "./components/NavigationMenu.tsx";
 import {Component} from "react";
 import {getCurrentUser} from "./domain/AuthenticationService.ts";
-import {ApplicationContext} from "./components/context/ApplicationContext.ts";
 import {CurrentUserResponse} from "./requests/responses/CurrentUserResponse.ts";
 import EditUserFormWrapper from "./components/users/EditUserForm.tsx";
 import UploadTorrentFileFormWrapper from "./components/torrents/UploadTorrentFileForm.tsx";
 
 
 interface AppState {
-    user?: CurrentUserResponse;
+    user?: CurrentUserResponse
 }
 
 class App extends Component {
@@ -22,62 +21,9 @@ class App extends Component {
         user: undefined,
     };
 
-    render() {
-        return (
-            <>
-                <ApplicationContext.Provider value={{ user: this.state.user }}>
-                    {this.state.user != undefined && <NavigationMenu user={this.state.user} />}
-                    <BrowserRouter>
-                        <Routes>
-                            <Route
-                                index
-                                element={isAuthenticated() ? <Navigate to="/torrents" /> : <LoginForm />}
-                            />
-                            <Route
-                                path="login"
-                                element={isAuthenticated() ? <Navigate to="/torrents" /> : <LoginForm />}
-                            />
-                            <Route path="torrents"
-                                   element={
-                                       <ProtectedRoute role={"user"}>
-                                           <TorrentList></TorrentList>
-                                       </ProtectedRoute>
-                                   }
-                            ></Route>
-                            <Route path="torrents/add"
-                                   element={
-                                       <ProtectedRoute role={"user"}>
-                                           <UploadTorrentFileFormWrapper></UploadTorrentFileFormWrapper>
-                                       </ProtectedRoute>
-                                   }
-                            ></Route>
-                            <Route path="users"
-                                   element={
-                                       <ProtectedRoute role={"admin"}>
-                                           <UserList></UserList>
-                                       </ProtectedRoute>
-                                   }
-                            ></Route>
-                            <Route path="users/create"
-                                   element={
-                                       <ProtectedRoute role={"admin"}>
-                                           <EditUserFormWrapper></EditUserFormWrapper>
-                                       </ProtectedRoute>
-                                   }
-                            ></Route>
-                            <Route path="users/:id"
-                                   element={
-                                       <ProtectedRoute role={"admin"}>
-                                           <EditUserFormWrapper></EditUserFormWrapper>
-                                       </ProtectedRoute>
-                                    }
-                            ></Route>
-                        </Routes>
-                    </BrowserRouter>
-                </ApplicationContext.Provider>
-            </>
-        )
-    }
+    handleLogin = (user: CurrentUserResponse) => {
+        this.setState({ user });
+    };
 
     async componentDidMount() {
         if (!isAuthenticated()) {
@@ -90,7 +36,61 @@ class App extends Component {
         }
 
         this.setState({user})
-        // this.forceUpdate()
+    }
+
+    render() {
+        return (
+            <>
+                {this.state.user != undefined && <NavigationMenu user={this.state.user} />}
+                <BrowserRouter>
+                    <Routes>
+                        <Route
+                            index
+                            element={isAuthenticated() ? <Navigate to="/torrents" /> : <LoginForm login={this.handleLogin} />}
+                        />
+                        <Route
+                            path="login"
+                            element={isAuthenticated() ? <Navigate to="/torrents" /> : <LoginForm login={this.handleLogin} />}
+                        />
+                        <Route path="torrents"
+                               element={
+                                   <ProtectedRoute role={"user"}>
+                                       <TorrentList></TorrentList>
+                                   </ProtectedRoute>
+                               }
+                        ></Route>
+                        <Route path="torrents/add"
+                               element={
+                                   <ProtectedRoute role={"user"}>
+                                       <UploadTorrentFileFormWrapper></UploadTorrentFileFormWrapper>
+                                   </ProtectedRoute>
+                               }
+                        ></Route>
+                        <Route path="users"
+                               element={
+                                   <ProtectedRoute role={"admin"}>
+                                       <UserList></UserList>
+                                   </ProtectedRoute>
+                               }
+                        ></Route>
+                        <Route path="users/create"
+                               element={
+                                   <ProtectedRoute role={"admin"}>
+                                       <EditUserFormWrapper></EditUserFormWrapper>
+                                   </ProtectedRoute>
+                               }
+                        ></Route>
+                        <Route path="users/:id"
+                               element={
+                                   <ProtectedRoute role={"admin"}>
+                                       <EditUserFormWrapper></EditUserFormWrapper>
+                                   </ProtectedRoute>
+                                }
+                        ></Route>
+                    </Routes>
+                </BrowserRouter>
+            </>
+        )
     }
 }
 

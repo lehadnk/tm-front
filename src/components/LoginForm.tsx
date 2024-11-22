@@ -3,9 +3,11 @@ import {useNavigate} from "react-router-dom";
 import {UnauthenticatedException} from "../requests/exceptions/UnauthenticatedException.ts";
 import React, {Component} from "react";
 import {isAuthenticated} from "../requests/TokenStorage.ts";
+import {CurrentUserResponse} from "../requests/responses/CurrentUserResponse.ts";
 
 interface LoginFormProps {
     navigate: (path: string) => void,
+    login: (user: CurrentUserResponse) => void,
 }
 
 interface LoginFormState {
@@ -32,8 +34,9 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState>
         const { email, password } = this.state;
 
         try {
-            await authenticate(email, password);
+            var currentUserResponse = await authenticate(email, password);
             this.props.navigate("/torrents");
+            this.props.login(currentUserResponse)
         } catch (e: unknown) {
             if (e instanceof UnauthenticatedException) {
                 this.setState({ errorMessage: "Invalid email or password. Please try again." });
@@ -113,10 +116,15 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState>
     }
 }
 
-const LoginFormWrapper: React.FC = () => {
+interface LoginFormWrapperProps
+{
+    login: (user: CurrentUserResponse) => void
+}
+
+const LoginFormWrapper: React.FC<LoginFormWrapperProps> = ({login}) => {
     const navigate = useNavigate()
 
-    return <LoginForm navigate={navigate} />;
+    return <LoginForm login={login} navigate={navigate} />;
 }
 
 export default LoginFormWrapper;
