@@ -42,7 +42,6 @@ export class UploadTorrentFileForm extends Component<UploadTorrentFileFormProps,
             this.props.navigate("/torrents");
         } catch (err) {
             this.setState({ error: 'File upload failed. Please try again.' });
-            console.error(err);
         } finally {
             this.setState({ uploading: false });
         }

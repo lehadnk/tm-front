@@ -1,16 +1,39 @@
 import {Component} from "react";
 import {deleteToken} from "../requests/TokenStorage.ts";
 import {CurrentUserResponse} from "../requests/responses/CurrentUserResponse.ts";
+import {ApplicationContext} from "./context/ApplicationContext.ts";
 
 interface NavigationMenuProps {
     user: CurrentUserResponse
 }
 
 export default class NavigationMenu extends Component<NavigationMenuProps, any> {
+    static contextType = ApplicationContext;
+
     handleLogout = () => {
         deleteToken();
         window.location.href = '/login';
     };
+
+    componentDidMount() {
+        if (this.props.user) {
+            document.body.classList.add("with-header");
+        } else {
+            document.body.classList.remove("with-header");
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.user) {
+            document.body.classList.add("with-header");
+        } else {
+            document.body.classList.remove("with-header");
+        }
+    }
+
+    componentWillUnmount() {
+        document.body.classList.remove("with-header");
+    }
 
     render() {
         const user = this.props.user;

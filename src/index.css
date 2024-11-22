@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    padding-top: 76px; /* Adjust this based on the header height */
+body.with-header {
+    padding-top: 76px;
 }

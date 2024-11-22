@@ -22,11 +22,6 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState>
         errorMessage: null,
     };
 
-    // constructor(props: LoginFormProps) {
-    //     super(props);
-    //     this.handleSubmit = this.handleSubmit.bind(this);
-    // }
-
     handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         this.setState({ [name]: value } as Pick<LoginFormState, keyof LoginFormState>);
@@ -37,11 +32,7 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState>
         const { email, password } = this.state;
 
         try {
-            const authenticationResponse = await authenticate(email, password);
-
-            // @todo put it to context
-            console.log(authenticationResponse);
-
+            await authenticate(email, password);
             this.props.navigate("/torrents");
         } catch (e: unknown) {
             if (e instanceof UnauthenticatedException) {
