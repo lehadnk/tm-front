@@ -7,3 +7,4 @@ RUN npm run build
 
 FROM nginx:latest
 COPY --from=build /build/dist /usr/share/nginx/html
+COPY inf/nginx.conf /etc/nginx/conf.d/default.conf
