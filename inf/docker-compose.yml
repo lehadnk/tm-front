@@ -6,8 +6,7 @@ services:
       context: ..
     ports:
       - 80:80
-    restart:
-      - always
+    restart: always
 
   postgres:
     image: postgres:14-alpine
@@ -19,5 +18,4 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=postgres  
-    restart:
-      - always
+    restart: always
