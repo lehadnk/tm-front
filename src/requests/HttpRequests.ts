@@ -148,3 +148,18 @@ export async function deleteUser(id: number): Promise<void> {
         throw new UnauthenticatedException()
     }
 }
+
+export async function getFreeSpace(): Promise<number> {
+    const url = `${import.meta.env.VITE_BACKEND_URL}/space`;
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken()},
+    })
+
+    if (response.status === 401) {
+        throw new UnauthenticatedException()
+    }
+
+    return await response.json() as number
+}

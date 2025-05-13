@@ -2,6 +2,7 @@ import {Component} from "react";
 import {deleteToken} from "../requests/TokenStorage.ts";
 import {CurrentUserResponse} from "../requests/responses/CurrentUserResponse.ts";
 import {ApplicationContext} from "./context/ApplicationContext.ts";
+import {Link} from "react-router-dom";
 
 interface NavigationMenuProps {
     user: CurrentUserResponse
@@ -43,13 +44,9 @@ export default class NavigationMenu extends Component<NavigationMenuProps, any> 
                 <nav className="bg-blue-600 text-white p-4 fixed w-full top-0 left-0 z-50 shadow-md">
                     <div className="max-w-screen-xl mx-auto flex justify-between items-center">
                         <div className="flex space-x-6">
-                            <a href="/torrents" className="hover:bg-blue-700 px-3 py-2 rounded-md text-lg">
-                                Torrents
-                            </a>
+                            <Link to="/torrents" className="hover:bg-blue-700 px-3 py-2 rounded-md text-lg">Torrents</Link>
                             {user && user.role === 'admin' && (
-                                <a href="/users" className="hover:bg-blue-700 px-3 py-2 rounded-md text-lg">
-                                    Users
-                                </a>
+                                <Link to="/users" className="hover:bg-blue-700 px-3 py-2 rounded-md text-lg">Users</Link>
                             )}
                         </div>
 

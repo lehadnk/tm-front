@@ -1,9 +1,9 @@
-export interface Torrent {
+export interface DatabaseData {
     id: number;
     status: string;
 }
 
-export interface TransmissionTorrent {
+export interface TransmissionData {
     id: number;
     name: string;
     eta: string;
@@ -12,8 +12,8 @@ export interface TransmissionTorrent {
 }
 
 export interface TorrentItem {
-    torrent: Torrent
-    transmissionTorrent: TransmissionTorrent
+    databaseData: DatabaseData
+    transmissionData: TransmissionData
 }
 
 export interface TorrentListResponse {

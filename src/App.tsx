@@ -41,8 +41,8 @@ class App extends Component {
     render() {
         return (
             <>
-                {this.state.user != undefined && <NavigationMenu user={this.state.user} />}
                 <BrowserRouter>
+                    {this.state.user != undefined && <NavigationMenu user={this.state.user} />}
                     <Routes>
                         <Route
                             index

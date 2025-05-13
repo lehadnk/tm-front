@@ -7,10 +7,9 @@ interface ProtectedRouteProps {
     role: string;
 }
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, role }) => {
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const location = useLocation();
 
-    console.log(role)
     if (!isAuthenticated()) {
         return <Navigate to="/login" state={{ from: location }} />;
     }
