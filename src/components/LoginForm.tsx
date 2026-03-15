@@ -56,21 +56,19 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState>
         const { email, password, errorMessage } = this.state;
 
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600">
-                <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-                    <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-                        Login to Your Account
-                    </h2>
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 px-4">
+                <div className="bg-white/95 backdrop-blur border border-white/40 rounded-2xl shadow-xl shadow-black/10 p-8 space-y-4">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Login</h2>
                     {errorMessage && (
-                        <div className="mb-4 text-red-500 text-center font-medium">
+                        <div className="-mt-3 mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
                             {errorMessage}
                         </div>
                     )}
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="mb-4">
+                    <form onSubmit={this.handleSubmit} className="space-y-4">
+                        <div className="">
                             <label
                                 htmlFor="email"
-                                className="block text-sm font-medium text-gray-700 mb-2"
+                                className="block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Email
                             </label>
@@ -80,15 +78,15 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState>
                                 name="email"
                                 value={email}
                                 onChange={this.handleInputChange}
-                                className="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-gray-900 placeholder:text-gray-400 shadow-sm outline-none transition focus:border-white focus:ring-4 focus:ring-white/30"
                                 placeholder="Enter your email"
                                 required
                             />
                         </div>
-                        <div className="mb-4">
+                        <div className="">
                             <label
                                 htmlFor="password"
-                                className="block text-sm font-medium text-gray-700 mb-2"
+                                className="block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Password
                             </label>
@@ -98,14 +96,14 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState>
                                 name="password"
                                 value={password}
                                 onChange={this.handleInputChange}
-                                className="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-gray-900 placeholder:text-gray-400 shadow-sm outline-none transition focus:border-white focus:ring-4 focus:ring-white/30"
                                 placeholder="Enter your password"
                                 required
                             />
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
+                            className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-2.5 shadow-lg shadow-black/20 transition hover:from-indigo-500 hover:to-purple-500 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-white/35"
                         >
                             Login
                         </button>
