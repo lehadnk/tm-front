@@ -10,6 +10,9 @@ import {getCurrentUser} from "./domain/AuthenticationService.ts";
 import {CurrentUserResponse} from "./requests/responses/CurrentUserResponse.ts";
 import EditUserFormWrapper from "./components/users/EditUserForm.tsx";
 import UploadTorrentFileFormWrapper from "./components/torrents/UploadTorrentFileForm.tsx";
+import ScrollToTop from "./common/ScrollToTop.tsx";
+import RouteTransition from "./common/RouteTransition.tsx";
+import RouteTitle from "./common/RouteTitle.tsx";
 
 
 interface AppState {
@@ -42,6 +45,9 @@ class App extends Component {
         return (
             <>
                 <BrowserRouter>
+                    <ScrollToTop />
+                    <RouteTitle />
+                    <RouteTransition />
                     {this.state.user != undefined && <NavigationMenu user={this.state.user} />}
                     <Routes>
                         <Route
